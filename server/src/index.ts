@@ -1,27 +1,32 @@
-import http from 'http';
 import express from 'express';
 import cors from 'cors';
-import { WebSocketTransport } from '@colyseus/ws-transport';
-import { Server as ColyseusServer } from 'colyseus';
+import { Server } from 'colyseus';
+import { createServer } from 'http';
 import { RaceRoom } from './rooms/RaceRoom';
 
-const port = Number(process.env.PORT || 2567);
+// Render will provide process.env.PORT (usually 10000). Fallback to 2567 for local development.
+const port = Number(process.env.PORT) || 2567;
 
-// Création de l’application HTTP Express
+// Create Express app for HTTP endpoints (e.g., health check). This server will
+// handle any REST endpoints (e.g., health check) and will also be passed to
+// Colyseus so that the WebSocket server and HTTP server run on the same port.
 const app = express();
 app.use(cors());
 app.get('/health', (_, res) => res.send('OK'));
 
-const httpServer = http.createServer(app);
+// Create native Node.js HTTP server from the Express app.
+const httpServer = createServer(app);
 
-// Colyseus avec WebSocket
-const colyseusServer = new ColyseusServer({
-  transport: new WebSocketTransport({ server: httpServer }),
-});
+// Instantiate Colyseus server and attach it to the existing HTTP server. Without
+// specifying a transport explicitly, Colyseus will use its default WebSocket
+// transport. Passing the HTTP server allows both HTTP and WS traffic to share
+// the same port.
+const gameServer = new Server({ server: httpServer });
 
-// Enregistrement des salles
-colyseusServer.define('race', RaceRoom);
+// Register rooms
+gameServer.define('race', RaceRoom);
 
+// Listen on provided port
 httpServer.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
