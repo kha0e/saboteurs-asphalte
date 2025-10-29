@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: sda-server
+    env: node
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: ROOM_TICK_RATE
+        value: "20"
+      - key: SNAPSHOT_RATE
+        value: "10"
+    buildCommand: |
+      cd server
+      npm install
+      npm run build
+    startCommand: |
+      node server/dist/index.js
+    routes:
+      - type: tcp
+        port: 2567
