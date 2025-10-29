@@ -1,0 +1,21 @@
+{
+  "name": "sda-client",
+  "version": "0.1.0",
+  "description": "Prototype client for Saboteurs de l’Asphalte",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "three": "^0.160.0",
+    "cannon-es": "^0.20.0",
+    "colyseus.js": "^0.15.6"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2",
+    "vite": "^4.5.0",
+    "@types/three": "^0.160.0"
+  }
+}
