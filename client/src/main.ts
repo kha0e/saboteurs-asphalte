@@ -10,7 +10,19 @@ async function init() {
 
   // connect to server (if available)
   try {
-    const client = new Client(`${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.hostname}:2567`);
+    // Determine appropriate server host. When running on Render (onrender.com),
+    // replace "client" with "server" in the hostname and omit the port, since
+    // Render assigns a dynamic port exposed via standard 443/80. For local
+    // development (localhost), use the default Colyseus port (2567).
+    const isRender = location.hostname.endsWith('.onrender.com');
+    const serverHost = isRender
+      ? location.hostname.replace('client', 'server')
+      : location.hostname;
+    const protocol = location.protocol === 'https:' ? 'wss' : 'ws';
+    const endpoint = isRender
+      ? `${protocol}://${serverHost}`
+      : `${protocol}://${serverHost}:2567`;
+    const client = new Client(endpoint);
     const room = await client.joinOrCreate('race', {});
     hud.innerText = 'Connecté au serveur\nJoueurs dans la salle: 1';
     room.onStateChange((state) => {
