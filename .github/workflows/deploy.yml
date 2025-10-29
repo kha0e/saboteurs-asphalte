@@ -1,0 +1,12 @@
+name: Deploy to Render
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder
+        run: echo "Déploiement automatique déclenché. Configurez Render pour utiliser la branche main."
