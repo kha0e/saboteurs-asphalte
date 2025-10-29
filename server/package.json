@@ -2,7 +2,7 @@
   "name": "sda-server",
   "version": "0.1.0",
   "private": true,
-  "description": "Prototype serveur pour Saboteurs de l\u2019Asphalte",
+  "description": "Prototype serveur pour Saboteurs de l’Asphalte",
   "scripts": {
     "dev": "ts-node-dev --respawn src/index.ts",
     "build": "tsc",
@@ -18,5 +18,7 @@
     "@types/node": "^20.8.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0"
+    ,"@types/express": "^4.17.17"
+    ,"@types/cors": "^2.8.12"
   }
 }
