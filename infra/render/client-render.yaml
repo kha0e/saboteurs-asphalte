@@ -1,0 +1,9 @@
+services:
+  - type: static
+    name: sda-client
+    env: static
+    buildCommand: |
+      cd client
+      npm install
+      npm run build
+    staticPublishPath: client/dist
